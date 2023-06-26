@@ -8,7 +8,14 @@ import ToDo from './components/ToDo';
 import Favourites from './components/Favourites';
 import Friends from './components/Friends';
 import Help from './components/Help';
-import LogOut from './components/LogOut';
+import LogIn from './components/Login';
+import SignUp from './components/SignUp';
+import ToDoState from './context/todo/ToDoState';
+import SubmitCode from './components/SubmitCode';
+import ProblemViewer from './components/ProblemViewer';
+import AddToDo from './components/AddToDo';
+import AddFav from './components/AddFav';
+import FavouriteState from './context/favourite/FavouriteState';
 
 
 
@@ -22,7 +29,7 @@ import {
 
 
 function App() {
-  const [mode, setMode] = useState('light'); // Whether dark mode is enabled or not
+  const [mode, setMode] = useState('dark'); // Whether dark mode is enabled or not
   const [alert, setAlert] = useState(null);
 
   const showAlert = (message, type)=>{
@@ -47,8 +54,14 @@ function App() {
       showAlert("Light mode has been enabled", "success");
     }
   }
+
+  
+
   return (
     <>
+    <FavouriteState>
+      
+    <ToDoState>
     <Router>
     <Navbar  mode={mode} toggleMode={toggleMode}  />
     <Alert alert={alert}/>
@@ -63,11 +76,20 @@ function App() {
           <Route exact path='/Favourites' element={<Favourites mode={mode}/>}></Route>
           <Route exact path='/Friends' element={<Friends mode={mode}/>}></Route>
           <Route exact path='/Help' element={<Help mode={mode}/>}></Route>
-          <Route exact path='/LogOut' element={<LogOut mode={mode}/>}></Route>
+          <Route exact path='/LogIn' element={<LogIn/>}></Route>
+          <Route exact path='/SignUp' element={<SignUp/>}></Route>
+          <Route exact path='ProblemViewer' element={<ProblemViewer/>}></Route>
+          <Route exact path='/SubmitCode' element={<SubmitCode/>}></Route>
+          <Route exact path='/AddToDo' element={<AddToDo/>}></Route>
+          <Route exact path='/AddFav' element={<AddFav/>}></Route>
 
+         
     </Routes>
     </div>
     </Router>
+
+    </ToDoState>
+    </FavouriteState>
     </> 
   );
 }

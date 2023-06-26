@@ -1,11 +1,22 @@
 import React from 'react'
+import UserRating from './UserRating'
+import ContestTimer from './ContestTimer'
+import ContestUpdates from './ContestUpdates'
 
 export default function Home(props) {
-  let myStyle = {
-    color: props.mode ==='dark'?'white':'#042743',
-    backgroundColor: props.mode ==='dark'?'rgb(36 74 104)':'white', 
-}
+ 
   return (
-    <div style={{color: props.mode ==='dark'?'white':'#042743'}}>Home</div>
+    <>
+    <div className="d-flex">
+
+    <div >Contest Updates to be displayed here</div>
+    <div className="container">
+
+    <UserRating/>
+    <ContestTimer/>
+    <ContestUpdates/>
+    </div>
+    </div>
+    </>
   )
 }
