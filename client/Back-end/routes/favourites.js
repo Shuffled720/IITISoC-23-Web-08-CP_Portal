@@ -5,7 +5,7 @@ const fetchuser = require('../middleware/fetchuser');
 const fav = require('../mongoose_models/Favourites');
 const { body, validationResult } = require('express-validator');
 
-// ROUTE 1:Get all the user's to do list items using: GET "/api/auth" . login will be required
+// ROUTE 1:Get all the user's favourites list items using: GET "/api/fav/fetchfavlist" . login will be required
 router.get('/fetchfavlist', fetchuser, async (req, res) => {
     try {
         const notes = await fav.find({ user: req.user.id });
@@ -16,7 +16,7 @@ router.get('/fetchfavlist', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 2: Add a new fav list item using: POST "/api/auth/addfav". Login required
+// ROUTE 2: Add a new fav list item using: POST "/api/fav/addfav". Login required
 router.post('/addfav', fetchuser,[
     body('problem_tag','Enter a valid problem tag').exists(),
     
@@ -26,7 +26,7 @@ router.post('/addfav', fetchuser,[
 
         try {
 
-            const { problem_date ,user_note, problem_name, problem_tag } = req.body;
+            const { problem_date ,user_note, problem_name, problem_tag , contestId , problem_index} = req.body;
 
             // If there are errors, return Bad request and the errors
             const errors = validationResult(req);
@@ -34,7 +34,7 @@ router.post('/addfav', fetchuser,[
                 return res.status(400).json({ errors: errors.array() });
             }
             const note = new fav({
-                problem_date ,user_note, problem_name, problem_tag , user: req.user.id
+                problem_date ,user_note, problem_name, problem_tag , contestId , problem_index, user: req.user.id
             })
             const savedfav = await note.save()
 
@@ -47,14 +47,14 @@ router.post('/addfav', fetchuser,[
     })
 
 
-    // ROUTE 3: Update an existing fav list item using: PUT "/api/notes/updatefav". Login required
+    // ROUTE 3: Update an existing fav list item using: PUT "/api/fav/updatefav". Login required
 router.put('/updatefav/:id', fetchuser, async (req, res) => {
-    const { problem_date ,user_note, problem_name, problem_tag } = req.body;
+    const { problem_date ,user_note, problem_name, problem_tag ,  contestId , problem_index } = req.body;
     try{
 
         // Create a newNote object
-        const newNote  = {};
-        if(user_note){newNote.user_note = user_note}
+        const newFav  = {};
+        if(user_note){newFav.user_note = user_note}
     
         // Find the list item to be updated and update it
         let note = await fav.findById(req.params.id);
@@ -64,7 +64,7 @@ router.put('/updatefav/:id', fetchuser, async (req, res) => {
             return res.status(401).send("Not Allowed");
         }
     
-        note = await fav.findByIdAndUpdate(req.params.id, {$set: newNote}, {new:true})
+        note = await fav.findByIdAndUpdate(req.params.id, {$set: newFav}, {new:true})
         res.json({note});
     }
     catch (error) {
@@ -74,7 +74,7 @@ router.put('/updatefav/:id', fetchuser, async (req, res) => {
     
     })
 
-    // ROUTE 4: Delete an existing list item using: DELETE "/api/notes/deletefav". Login required
+    // ROUTE 4: Delete an existing list item using: DELETE "/api/fav/deletefav". Login required
 router.delete('/deletefav/:id', fetchuser, async (req, res) => {
     try {
         // Find the note to be delete and delete it

@@ -16,6 +16,8 @@ app.use(cors());
 app.use('/api/user', require('./routes/user'))
 app.use('/api/todo', require('./routes/todo'))
 app.use('/api/fav', require('./routes/favourites'))
+app.use('/api/friends', require('./routes/friends'))
+// app.use('/api/problems', require('./routes/problems'))
 
 app.listen(port, () => {
   console.log(`CodeCrafter listening on port ${port}`);

@@ -11,25 +11,20 @@ import Help from './components/Help';
 import LogIn from './components/Login';
 import SignUp from './components/SignUp';
 import ToDoState from './context/todo/ToDoState';
-import SubmitCode from './components/SubmitCode';
 import ProblemViewer from './components/ProblemViewer';
-import AddToDo from './components/AddToDo';
-import AddFav from './components/AddFav';
 import FavouriteState from './context/favourite/FavouriteState';
-
-
-
+import UserState from './context/user/UserState';
 import React, { useState } from 'react';
 import Alert from './components/Alert';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import AlertState from './context/alert/AlertState';
+import ShowUserNote from './components/ShowUserNote';
+import ProblemState from './context/problems/ProblemState';
+import FriendState from './context/friend/FriendState';
+import Users from './components/Users';
 
 
 function App() {
-  const [mode, setMode] = useState('dark'); // Whether dark mode is enabled or not
   const [alert, setAlert] = useState(null);
 
   const showAlert = (message, type)=>{
@@ -41,47 +36,39 @@ function App() {
           setAlert(null);
       }, 1500);
   }
-
-  const toggleMode = ()=>{
-    if(mode === 'light'){
-      setMode('dark');
-      document.body.style.backgroundColor = 'grey';
-      showAlert("Dark mode has been enabled", "success");
-    }
-    else{
-      setMode('light');
-      document.body.style.backgroundColor = 'white';
-      showAlert("Light mode has been enabled", "success");
-    }
-  }
-
-  
+  const name1="";
 
   return (
     <>
+    <FriendState>
+
+    <ProblemState>
+    <AlertState>
+     <UserState>
     <FavouriteState>
-      
     <ToDoState>
+
+
     <Router>
-    <Navbar  mode={mode} toggleMode={toggleMode}  />
+    <Navbar  />
     <Alert alert={alert}/>
     <div className="container my-3">
     <Routes>
           
-          <Route exact path='/' element={<Home mode={mode}/>}></Route>
-          <Route exact path='/Profile' element={<Profile mode={mode}/>}></Route>
-          <Route exact path='/CPWebsites' element={<CPWebsites mode={mode}/>}></Route>
-          <Route exact path='/Problems' element={<Problems mode={mode}/>}></Route>
-          <Route exact path='/ToDo' element={<ToDo mode={mode}/>}></Route>
-          <Route exact path='/Favourites' element={<Favourites mode={mode}/>}></Route>
-          <Route exact path='/Friends' element={<Friends mode={mode}/>}></Route>
-          <Route exact path='/Help' element={<Help mode={mode}/>}></Route>
+          <Route exact path='/' element={<Home/>}></Route>
+          <Route exact path='/Profile' element={<Profile />}></Route>
+          <Route exact path='/CPWebsites' element={<CPWebsites/>}></Route>
+          <Route exact path='/Problems' element={<Problems />}></Route>
+          <Route exact path='/ToDo' element={<ToDo />}></Route>
+          <Route exact path='/Favourites' element={<Favourites />}></Route>
+          <Route exact path='/Friends' element={<Friends />}></Route>
+          <Route exact path='/Help' element={<Help />}></Route>
           <Route exact path='/LogIn' element={<LogIn/>}></Route>
           <Route exact path='/SignUp' element={<SignUp/>}></Route>
           <Route exact path='ProblemViewer' element={<ProblemViewer/>}></Route>
-          <Route exact path='/SubmitCode' element={<SubmitCode/>}></Route>
-          <Route exact path='/AddToDo' element={<AddToDo/>}></Route>
-          <Route exact path='/AddFav' element={<AddFav/>}></Route>
+          <Route exact path={`/Users/:username/:friendid`} element={<Users/>}></Route>
+          <Route exact path='/ShowUserNote' element={<ShowUserNote/>}></Route>
+
 
          
     </Routes>
@@ -90,6 +77,10 @@ function App() {
 
     </ToDoState>
     </FavouriteState>
+    </UserState> 
+    </AlertState>
+    </ProblemState>
+    </FriendState>
     </> 
   );
 }

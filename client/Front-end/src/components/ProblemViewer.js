@@ -6,7 +6,7 @@ export default function ProblemViewer(props) {
     <>
     <ProblemNavbar problem_name="Arnav"/>
     <br/>
-    hello
+    problem name: {props.name}
     </>
     
   )

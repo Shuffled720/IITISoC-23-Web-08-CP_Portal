@@ -22,6 +22,16 @@ const FavSchema = new Schema({
         default:"No sticky notes were addded by you"
 
     },
+    contestId:{
+        type:String,
+        required:true
+
+    },
+    problem_index:{
+        type:String,
+        required: true
+
+    },
     problem_date:{
         type: Date,
         default:Date.now

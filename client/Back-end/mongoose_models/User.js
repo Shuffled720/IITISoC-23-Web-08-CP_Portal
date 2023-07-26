@@ -5,7 +5,6 @@ const UserSchema = new Schema({
         type:String,
         required:true,
         unique:true
-
     },
     email:{
         type: String,
@@ -17,7 +16,31 @@ const UserSchema = new Schema({
         required:true
 
     },
-   
+    codeforces_user:{
+        type:String,
+        default:""
+
+    },
+    codechef_user:{
+        type:String,
+        default:""
+
+    },
+    atcoder_user:{
+        type:String,
+        default:""
+
+    },
+    leetcode_user:{
+        type:String,
+        default:""
+
+    },
+    hackerrank_user:{
+        type:String,
+        default:""
+
+    },
   });
   
   const User = mongoose.model('user',UserSchema);

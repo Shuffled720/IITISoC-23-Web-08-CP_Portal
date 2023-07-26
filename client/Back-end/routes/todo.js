@@ -5,7 +5,7 @@ const fetchuser = require('../middleware/fetchuser');
 const todo = require('../mongoose_models/Todo');
 const { body, validationResult } = require('express-validator');
 
-// ROUTE 1:Get all the user's to do list items using: GET "/api/auth" . login will be required
+// ROUTE 1:Get all the user's to do list items using: GET "/api/todo" . login will be required
 router.get('/fetchtodolist', fetchuser, async (req, res) => {
     try {
         const notes = await todo.find({ user: req.user.id });
@@ -16,7 +16,7 @@ router.get('/fetchtodolist', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 2: Add a new ToDO list item using: POST "/api/auth/addtodo". Login required
+// ROUTE 2: Add a new To Do list item using: POST "/api/todo/addtodo". Login required
 router.post('/addtodo', fetchuser,[
     body('problem_tag','Enter a valid problem tag').exists(),
     
@@ -26,15 +26,14 @@ router.post('/addtodo', fetchuser,[
 
         try {
 
-            const { problem_date ,user_note, problem_name, problem_tag } = req.body;
-
+            const { problem_date ,user_note, problem_name, problem_tag , contestId , problem_index } = req.body;
             // If there are errors, return Bad request and the errors
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
             const note = new todo({
-                problem_date ,user_note, problem_name, problem_tag , user: req.user.id
+                problem_date ,user_note, problem_name, problem_tag ,contestId,problem_index, user: req.user.id
             })
             const savedTodo = await note.save()
 
@@ -47,7 +46,7 @@ router.post('/addtodo', fetchuser,[
     })
 
 
-    // ROUTE 3: Update an existing ToDo list item using: PUT "/api/notes/updatetodo". Login required
+    // ROUTE 3: Update an existing To Do list item using: PUT "/api/todo/updatetodo". Login required
 router.put('/updatetodo/:id', fetchuser, async (req, res) => {
     const { problem_date ,user_note, problem_name, problem_tag } = req.body;
     try{
@@ -74,7 +73,7 @@ router.put('/updatetodo/:id', fetchuser, async (req, res) => {
     
     })
 
-    // ROUTE 4: Delete an existing list item using: DELETE "/api/notes/deletetodo". Login required
+    // ROUTE 4: Delete an existing list item using: DELETE "/api/todo/deletetodo". Login required
 router.delete('/deletetodo/:id', fetchuser, async (req, res) => {
     try {
         // Find the note to be delete and delete it
@@ -93,5 +92,25 @@ router.delete('/deletetodo/:id', fetchuser, async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
+
+  // ROUTE 5: Get  To Do list  Details using: POST "/api/todo/searchtodo". Login required
+  router.post('/searchtodo/:problemname', fetchuser,  async (req, res) => {
+
+    try {
+      const problemname = req.params.problemname;
+      const searchtodo = await todo.findOne({problem_name : problemname});
+      if(searchtodo)
+      {
+        res.send(searchtodo);
+      }
+      else
+      {
+        return res.status(404).send("Not Found")
+      }
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  })
 
 module.exports = router

@@ -7,17 +7,15 @@ export default function Navbar(props) {
     const handleLogOut =()=>{
         localStorage.removeItem('token');
         navigate('/');
-
     }
 
     let location = useLocation();
     useEffect(() => {
-        console.log(location.pathname);
       }, [location]);
 
     return (
       <>
-<nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
+<nav className={`navbar navbar-expand-lg fixed-top navbar-dark bg-dark`}>
             <div className="container-fluid">
                 <Link className="navbar-brand" >CodeCrafter</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,15 +44,11 @@ export default function Navbar(props) {
                         <li className="nav-item">
                         <Link className={`nav-link ${location.pathname==="/Friends"? "active": ""}`} aria-current="page" to="/Friends">Friends</Link>
                         </li>
+                       
                         <li className="nav-item">
                         <Link className={`nav-link ${location.pathname==="/Help"? "active": ""}`} aria-current="page" to="/Help">Help</Link>
                         </li>
                     </ul>
-                    {/* <div className={`form-check form-switch mx-2 text-${props.mode==='light'?'dark':'light'}`}>
-                        <input className="form-check-input" onClick={props.toggleMode} type="checkbox" id="flexSwitchCheckDefault"/>
-                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable DarkMode</label>
-                       
-                  </div> */}
                   { !localStorage.getItem('token')?
                     <div>
                             <Link type="button" className="btn btn-primary mx-1" to="/LogIn">Log In</Link>

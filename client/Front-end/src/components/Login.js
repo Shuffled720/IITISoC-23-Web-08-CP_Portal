@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const Login = (props) => {
     const [credentials, setCredentials] = useState({name: "", password: ""}) 
     const navigate = useNavigate();
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:5000/api/user/login", {
@@ -19,7 +18,6 @@ const Login = (props) => {
         console.log(json);
         if (json.success){
             // Save the auth token and redirect
-            
             localStorage.setItem('token', json.authtoken); 
             navigate('/');
         }
@@ -33,14 +31,10 @@ const Login = (props) => {
     }
 
     return (
-        // <h1>login</h1>
         <div>
+            <h1>Login</h1>
             <form  onSubmit={handleSubmit}>
-                {/* <div className="input-group mb-3">
-  <span className="input-group-text" id="basic-addon1">@</span>
-  <input name="name" type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value={credentials.name}  onChange={onChange}  />
-</div> */}
- <div className="mb-3">
+                <div className="mb-3">
                     <label htmlFor="password" className="form-label">Username</label>
                     <input type="text" className="form-control" value={credentials.name} onChange={onChange} name="name" id="name" />
                 </div>
